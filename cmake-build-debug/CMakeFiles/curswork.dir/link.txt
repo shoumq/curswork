@@ -1,0 +1,3 @@
+"D:\JetBrains\CLion 2024.2.2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\curswork.dir/objects.a
+"D:\JetBrains\CLion 2024.2.2\bin\mingw\bin\ar.exe" qc CMakeFiles\curswork.dir/objects.a @CMakeFiles\curswork.dir\objects1.rsp
+"D:\JetBrains\CLion 2024.2.2\bin\mingw\bin\g++.exe" -g -Wl,--whole-archive CMakeFiles\curswork.dir/objects.a -Wl,--no-whole-archive -o curswork.exe -Wl,--out-implib,libcurswork.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\curswork.dir\linkLibs.rsp
