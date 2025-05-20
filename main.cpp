@@ -62,37 +62,17 @@ void train(vector<vector<double>>& X, vector<int>& y, vector<double>& weights,
 void loadData(const string& filename, vector<vector<double>>& X, vector<int>& y) {
     ifstream file(filename);
     string line;
-    bool header = true;
+    getline(file, line);
 
     while (getline(file, line)) {
-        if (header) {
-            header = false;
-            continue;
-        }
-
         stringstream ss(line);
         string value;
         vector<double> features;
-        int label;
-        int col = 0;
+        int label = 0;
 
-        while (getline(ss, value, ',')) {
-            if (col == 8) {
-                try {
-                    label = std::stoi(value);
-                } catch (...) {
-                    label = 0;
-                }
-            } else {
-                try {
-                    features.push_back(value.empty() ? 0.0 : std::stod(value));
-                } catch (...) {
-                    features.push_back(0.0);
-                    std::cerr << "Invalid label provided in loadData()" << std::endl;
-                    exit(1);
-                }
-            }
-            ++col;
+        for (int col = 0; getline(ss, value, ','); ++col) {
+            if (col == 8) label = stoi(value);
+            else features.push_back(value.empty() ? 0.0 : stod(value));
         }
 
         if (features.size() == 8) {
@@ -102,8 +82,8 @@ void loadData(const string& filename, vector<vector<double>>& X, vector<int>& y)
     }
 }
 
-void accuracy(const std::vector<std::vector<double>>& X, const std::vector<int>& y, const std::vector<double>& weights) {
-    int tp = 0, tn = 0, fp = 0, fn = 0;
+void accuracy(const vector<vector<double>>& X, const vector<int>& y, const vector<double>& weights) {
+    int tp = 0, tn = 0;
     size_t m = X.size();
 
     for (size_t i = 0; i < m; ++i) {
@@ -116,18 +96,18 @@ void accuracy(const std::vector<std::vector<double>>& X, const std::vector<int>&
 
     double accuracy = (tp + tn) / static_cast<double>(m);
 
-    std::cout << "Accuracy:  " << std::fixed << std::setprecision(4) << accuracy << std::endl;
+    cout << "Accuracy:  " << fixed << setprecision(4) << accuracy << endl;
 }
 
 
 int main() {
-    std::vector<std::vector<double>> X;git branch -M main
-    std::vector<int> y;
+    vector<vector<double>> X;
+    vector<int> y;
 
     loadData("data.csv", X, y);
 
     size_t n = X[0].size();
-    std::vector<double> means(n, 0.0), stddevs(n, 1.0);
+    vector<double> means(n, 0.0), stddevs(n, 1.0);
 
     for (size_t j = 0; j < n; ++j) {
         double sum = 0.0, sq_sum = 0.0;
@@ -136,7 +116,7 @@ int main() {
             sq_sum += row[j] * row[j];
         }
         means[j] = sum / X.size();
-        stddevs[j] = std::sqrt(sq_sum / X.size() - means[j] * means[j]);
+        stddevs[j] = sqrt(sq_sum / X.size() - means[j] * means[j]);
         if (stddevs[j] == 0.0) stddevs[j] = 1.0;
     }
 
@@ -146,9 +126,9 @@ int main() {
         }
     }
 
-    std::vector<double> weights(n + 1);
-    std::default_random_engine eng;
-    std::uniform_real_distribution<double> dist(-0.1, 0.1);
+    vector<double> weights(n + 1);
+    default_random_engine eng;
+    uniform_real_distribution<double> dist(-0.1, 0.1);
     for (auto& w : weights) w = dist(eng);
 
     double alpha = 0.05;
@@ -159,7 +139,7 @@ int main() {
 
     accuracy(X, y, weights);
 
-    std::vector<double> newData = {7,107,74,0,0,29.6,0.254,31};
+    vector<double> newData = {7,107,74,0,0,29.6,0.254,31};
 
     for (size_t j = 0; j < n; ++j) {
         newData[j] = (newData[j] - means[j]) / stddevs[j];
@@ -168,8 +148,8 @@ int main() {
     double newProb = predict(newData, weights);
     int newPred = newProb >= 0.5 ? 1 : 0;
 
-    std::cout << "\nПредсказание: " << newPred
-              << ", Вероятность = " << std::fixed << std::setprecision(4) << newProb << std::endl;
+    cout << "\nПредсказание: " << newPred
+              << ", Вероятность = " << fixed << setprecision(4) << newProb << endl;
 
     return 0;
 }

@@ -1,3 +1,3 @@
-/Users/mac/Documents/codding/cppt/curswork/cmake-build-debug/CMakeFiles/curswork.dir
-/Users/mac/Documents/codding/cppt/curswork/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/mac/Documents/codding/cppt/curswork/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/Coding/cpp/curswork/cmake-build-debug/CMakeFiles/curswork.dir
+D:/Coding/cpp/curswork/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Coding/cpp/curswork/cmake-build-debug/CMakeFiles/rebuild_cache.dir
